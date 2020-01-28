@@ -165,7 +165,7 @@ function Time(rental){
   var new_pickup = new Date(rental.pickupDate);
   var new_return = new Date(rental.returnDate);
   var time = (new_return - new_pickup)/(1000*60*60*24) + 1;
-  console.log(time);
+  //console.log(time);
   return time;
 }
 
@@ -177,19 +177,47 @@ rentals.forEach(function(part, index) {
   var time_price = Time(part) * cars.find(x => x.id === part.carId).pricePerDay;
   this[index].price = time_price + Distance(part);
   if (Time(part) > 10){
-    console.log(this[index].price*0.5);
+    this[index].price = this[index].price*0.5
+    console.log(this[index].price);
   }
   else if (Time(part) > 4){
-    console.log(this[index].price*0.7);
+    this[index].price = this[index].price*0.7
+    console.log(this[index].price);
   }
   else if (Time(part) > 1){
-    console.log(this[index].price*0.9);
+    this[index].price = this[index].price*0.9
+    console.log(this[index].price);
   }
   else{
     console.log(this[index].price);
   }
   //console.log(this[index].price)
+  console.log("commission:");
+  var commission = this[index].price*0.3;
+  console.log(commission);
+  console.log("insurance:");
+  var insurance = commission/2;
+  console.log(insurance);
+  console.log("treasury:");
+  var treasury = Time(part);
+  console.log(treasury);
+  console.log("virtuo:");
+  var virtuo = commission - insurance - treasury;
+  console.log(virtuo);
+
+
 }, rentals);
+
+
+
+
+
+
+
+
+
+
+
 
 console.log(cars);
 console.log(rentals);
