@@ -160,11 +160,13 @@ const actors = [{
   }]
 }];
 
+
 function Time(rental){
   var new_pickup = new Date(rental.pickupDate);
   var new_return = new Date(rental.returnDate);
   var time = (new_return - new_pickup)/(1000*60*60*24) + 1;
-  return time * cars.find(x => x.id === rental.carId).pricePerDay;
+  console.log(time);
+  return time;
 }
 
 function Distance(rental){
@@ -172,8 +174,21 @@ function Distance(rental){
 }
 
 rentals.forEach(function(part, index) {
-  this[index].price = Time(part) + Distance(part);
-  console.log(this[index].price)
+  var time_price = Time(part) * cars.find(x => x.id === part.carId).pricePerDay;
+  this[index].price = time_price + Distance(part);
+  if (Time(part) > 10){
+    console.log(this[index].price*0.5);
+  }
+  else if (Time(part) > 4){
+    console.log(this[index].price*0.7);
+  }
+  else if (Time(part) > 1){
+    console.log(this[index].price*0.9);
+  }
+  else{
+    console.log(this[index].price);
+  }
+  //console.log(this[index].price)
 }, rentals);
 
 console.log(cars);
