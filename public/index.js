@@ -20,6 +20,7 @@ const cars = [{
   'pricePerKm': 0.45
 }];
 
+
 //list of current rentals
 //useful for ALL steps
 //the time is hour
@@ -84,6 +85,7 @@ const rentals = [{
     'virtuo': 0
   }
 }];
+
 
 //list of actors for payment
 //useful from step 5
@@ -158,6 +160,23 @@ const actors = [{
   }]
 }];
 
+function Time(rental){
+  var new_pickup = new Date(rental.pickupDate);
+  var new_return = new Date(rental.returnDate);
+  var time = (new_return - new_pickup)/(1000*60*60*24) + 1;
+  return time * cars.find(x => x.id === rental.carId).pricePerDay;
+}
+
+function Distance(rental){
+  return rental.distance * cars.find(x => x.id === rental.carId).pricePerKm;
+}
+
+rentals.forEach(function(part, index) {
+  this[index].price = Time(part) + Distance(part);
+  console.log(this[index].price)
+}, rentals);
+
 console.log(cars);
 console.log(rentals);
 console.log(actors);
+console.log("toto");
