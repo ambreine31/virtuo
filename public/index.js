@@ -173,6 +173,7 @@ function Distance(rental){
   return rental.distance * cars.find(x => x.id === rental.carId).pricePerKm;
 }
 
+// question 1/2
 rentals.forEach(function(part, index) {
   var time_price = Time(part) * cars.find(x => x.id === part.carId).pricePerDay;
   this[index].price = time_price + Distance(part);
@@ -192,24 +193,42 @@ rentals.forEach(function(part, index) {
     console.log(this[index].price);
   }
   //console.log(this[index].price)
+
+  //question 3
   console.log("commission:");
   var commission = this[index].price*0.3;
   console.log(commission);
   console.log("insurance:");
   var insurance = commission/2;
+  this[index].commission.insurance = insurance;
   console.log(insurance);
   console.log("treasury:");
   var treasury = Time(part);
+  this[index].commission.treasury = treasury;
   console.log(treasury);
   console.log("virtuo:");
   var virtuo = commission - insurance - treasury;
+  this[index].commission.virtuo = virtuo;
   console.log(virtuo);
+
+  //question 4
+  if(this[index].deductibleReduction == true){
+    var deductible_charge = 4*Time(part);
+    this[index].price = this[index].price + deductible_charge;
+    this[index].commission.virtuo = this[index].commission.virtuo + deductible_charge;
+  }
+}, rentals);
+
+/*
+rentals.forEach(function(part, index) {
+  var time_price = Time(part) * cars.find(x => x.id === part.carId).pricePerDay;
+  this[index].price = time_price + Distance(part);
+
+
 
 
 }, rentals);
-
-
-
+*/
 
 
 
